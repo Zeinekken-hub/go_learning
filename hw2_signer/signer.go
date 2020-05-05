@@ -59,7 +59,7 @@ func ExecutePipeline(jobs ...job) {
 	wg.Wait()
 }
 
-//Calculate 2 operations as 1 secound instead linear 2 secound time
+//Calculate 2 operations as 1 second instead linear 2 second time
 func crc32AndMd5Async(crc32 string, md5 string) (string, string) {
 	dataChan := make(chan string)
 
