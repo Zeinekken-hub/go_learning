@@ -5,6 +5,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path"
 )
 
 const (
@@ -34,8 +35,8 @@ func dirTree(out io.Writer, path string, printFiles bool) error {
 	return nil
 }
 
-func recTree(path string, out io.Writer, printFiles bool, level int, notPrintLevels []int) error {
-	files, err := ioutil.ReadDir(path)
+func recTree(filePath string, out io.Writer, printFiles bool, level int, notPrintLevels []int) error {
+	files, err := ioutil.ReadDir(filePath)
 	if err != nil {
 		return fmt.Errorf(err.Error())
 	}
@@ -70,10 +71,10 @@ func recTree(path string, out io.Writer, printFiles bool, level int, notPrintLev
 		//stay in the same folder and continue the loop
 		if file.IsDir() {
 			fmt.Fprint(out, "\n")
-			newPath := path + "/" + file.Name()
+			newPath := path.Join(filePath, file.Name())
 			recTree(newPath, out, printFiles, level+1, notPrintLevels)
 		} else {
-			bytesS, err := bytesS(path + "/" + file.Name())
+			bytesS, err := bytesS(path.Join(filePath, file.Name()))
 			if err != nil {
 				return fmt.Errorf(err.Error())
 			}
